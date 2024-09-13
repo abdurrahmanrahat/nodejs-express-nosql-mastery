@@ -7,6 +7,6 @@ router.post("/create-movie", MovieControllers.creteMovie);
 
 router.get("/", MovieControllers.getAllMovies);
 
-router.get("/:movieId", MovieControllers.getMovieById);
+router.get("/:slug", MovieControllers.getMovieBySlug);
 
 export const MovieRoutes = router;

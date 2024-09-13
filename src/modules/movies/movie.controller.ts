@@ -30,14 +30,14 @@ const getAllMovies = async (req: Request, res: Response) => {
   }
 };
 
-const getMovieById = async (req: Request, res: Response) => {
+const getMovieBySlug = async (req: Request, res: Response) => {
   try {
-    const { movieId } = req.params;
-    const result = await MovieServices.getMovieByIdFromDB(movieId);
+    const { slug } = req.params;
+    const result = await MovieServices.getMovieBySlugFromDB(slug);
 
     res.status(200).json({
       success: true,
-      message: "Movies are fetched successfully !",
+      message: "Movie fetched successfully !",
       data: result,
     });
   } catch (err: any) {
@@ -52,5 +52,5 @@ const getMovieById = async (req: Request, res: Response) => {
 export const MovieControllers = {
   creteMovie,
   getAllMovies,
-  getMovieById,
+  getMovieBySlug,
 };
