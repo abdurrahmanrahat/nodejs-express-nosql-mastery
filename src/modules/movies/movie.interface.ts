@@ -9,7 +9,6 @@ export type TMovie = {
   slug: string;
   viewCount: number;
   totalRatings: number;
-
   isDeleted?: boolean;
 };
 
