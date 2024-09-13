@@ -12,6 +12,45 @@ const creteMovie = async (req: Request, res: Response) => {
   });
 };
 
+const getAllMovies = async (req: Request, res: Response) => {
+  try {
+    const result = await MovieServices.getAllMoviesFromDB();
+
+    res.status(200).json({
+      success: true,
+      message: "Movies are fetched successfully !",
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: "Could not fetch movies!",
+      error: err,
+    });
+  }
+};
+
+const getMovieById = async (req: Request, res: Response) => {
+  try {
+    const { movieId } = req.params;
+    const result = await MovieServices.getMovieByIdFromDB(movieId);
+
+    res.status(200).json({
+      success: true,
+      message: "Movies are fetched successfully !",
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: "Could not fetch movies!",
+      error: err,
+    });
+  }
+};
+
 export const MovieControllers = {
   creteMovie,
+  getAllMovies,
+  getMovieById,
 };
