@@ -35,14 +35,16 @@ const creteReviewIntoDB = async (slug: string, payload: Partial<TReview>) => {
     );
 
     await session.commitTransaction();
+    session.endSession();
 
     return review[0];
   } catch (error) {
     await session.abortTransaction();
-    console.log(error);
-  }
+    session.endSession();
 
-  session.endSession();
+    console.log(error);
+    // throw error;
+  }
 };
 
 const getAllReviewsFromDB = async () => {

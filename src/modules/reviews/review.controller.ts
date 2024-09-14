@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
+import catchAsync from "../../utils/catchAsync";
 import { ReviewServices } from "./review.service";
 
-const createReview = async (req: Request, res: Response) => {
+const createReview = catchAsync(async (req, res) => {
   const { slug } = req.params;
   const reviewData = req.body;
 
@@ -12,82 +13,50 @@ const createReview = async (req: Request, res: Response) => {
     message: "Review is created successfully !",
     data: result,
   });
-};
+});
 
-const getAllReviews = async (req: Request, res: Response) => {
-  try {
-    const result = await ReviewServices.getAllReviewsFromDB();
+const getAllReviews = catchAsync(async (req: Request, res: Response) => {
+  const result = await ReviewServices.getAllReviewsFromDB();
 
-    res.status(200).json({
-      success: true,
-      message: "Reviews are fetched successfully !",
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: "Could not fetch Reviews!",
-      error: err,
-    });
-  }
-};
+  res.status(200).json({
+    success: true,
+    message: "Reviews are fetched successfully !",
+    data: result,
+  });
+});
 
-const getReviewById = async (req: Request, res: Response) => {
-  try {
-    const { reviewId } = req.params;
-    const result = await ReviewServices.getReviewByIdFromDB(reviewId);
+const getReviewById = catchAsync(async (req: Request, res: Response) => {
+  const { reviewId } = req.params;
+  const result = await ReviewServices.getReviewByIdFromDB(reviewId);
 
-    res.status(200).json({
-      success: true,
-      message: "Review fetched successfully !",
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: "Could not fetch Reviews!",
-      error: err,
-    });
-  }
-};
+  res.status(200).json({
+    success: true,
+    message: "Review fetched successfully !",
+    data: result,
+  });
+});
 
-const updateReviewById = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const result = await ReviewServices.updateReviewByIdFromDB(id);
+const updateReviewById = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await ReviewServices.updateReviewByIdFromDB(id);
 
-    res.status(200).json({
-      success: true,
-      message: "Review updated successfully !",
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: "Could not update Reviews!",
-      error: err,
-    });
-  }
-};
+  res.status(200).json({
+    success: true,
+    message: "Review updated successfully !",
+    data: result,
+  });
+});
 
-const deleteReviewById = async (req: Request, res: Response) => {
-  try {
-    const { slug, reviewId } = req.params;
-    const result = await ReviewServices.deleteReviewByIdFromDB(slug, reviewId);
+const deleteReviewById = catchAsync(async (req: Request, res: Response) => {
+  const { slug, reviewId } = req.params;
+  const result = await ReviewServices.deleteReviewByIdFromDB(slug, reviewId);
 
-    res.status(200).json({
-      success: true,
-      message: "Review deleted successfully !",
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: "Could not delete Reviews!",
-      error: err,
-    });
-  }
-};
+  res.status(200).json({
+    success: true,
+    message: "Review deleted successfully !",
+    data: result,
+  });
+});
 
 export const ReviewControllers = {
   createReview,
