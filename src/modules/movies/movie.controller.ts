@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
+import catchAsync from "../../utils/catchAsync";
 import { MovieServices } from "./movie.service";
 
-const creteMovie = async (req: Request, res: Response) => {
+const creteMovie = catchAsync(async (req: Request, res: Response) => {
   const movieData = req.body;
   const result = await MovieServices.creteMovieIntoDB(movieData);
 
@@ -10,44 +11,28 @@ const creteMovie = async (req: Request, res: Response) => {
     message: "Movie is created successfully !",
     data: result,
   });
-};
+});
 
-const getAllMovies = async (req: Request, res: Response) => {
-  try {
-    const result = await MovieServices.getAllMoviesFromDB();
+const getAllMovies = catchAsync(async (req: Request, res: Response) => {
+  const result = await MovieServices.getAllMoviesFromDB();
 
-    res.status(200).json({
-      success: true,
-      message: "Movies are fetched successfully !",
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: "Could not fetch movies!",
-      error: err,
-    });
-  }
-};
+  res.status(200).json({
+    success: true,
+    message: "Movies are fetched successfully !",
+    data: result,
+  });
+});
 
-const getMovieBySlug = async (req: Request, res: Response) => {
-  try {
-    const { slug } = req.params;
-    const result = await MovieServices.getMovieBySlugFromDB(slug);
+const getMovieBySlug = catchAsync(async (req: Request, res: Response) => {
+  const { slug } = req.params;
+  const result = await MovieServices.getMovieBySlugFromDB(slug);
 
-    res.status(200).json({
-      success: true,
-      message: "Movie fetched successfully !",
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: "Could not fetch movies!",
-      error: err,
-    });
-  }
-};
+  res.status(200).json({
+    success: true,
+    message: "Movie fetched successfully !",
+    data: result,
+  });
+});
 
 export const MovieControllers = {
   creteMovie,
