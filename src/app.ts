@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { globalErrHandler } from "./middleware/globalErrHandler";
-import { notFound } from "./middleware/NotFound";
+import { notFound } from "./middleware/notFound";
 import { MovieRoutes } from "./modules/movies/movie.route";
 
 const app = express();

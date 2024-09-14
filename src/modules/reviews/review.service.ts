@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Movie } from "../movies/movie.model";
 import { TReview } from "./review.interface";
 import { Review } from "./review.model";
@@ -38,11 +39,11 @@ const creteReviewIntoDB = async (slug: string, payload: Partial<TReview>) => {
     session.endSession();
 
     return review[0];
-  } catch (error) {
+  } catch (error: any) {
     await session.abortTransaction();
     session.endSession();
 
-    console.log(error);
+    throw new Error(error);
     // throw error;
   }
 };
