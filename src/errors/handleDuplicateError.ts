@@ -16,7 +16,7 @@ export const handleDuplicateError = (err: any) => {
 
   return {
     statusCode,
-    message: "Invalid Id",
+    message: "Duplicate field",
     errorSources,
   };
 };

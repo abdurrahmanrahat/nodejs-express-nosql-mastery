@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 import { ErrorRequestHandler } from "express";
+import { ZodError } from "zod";
 import { handleCastError } from "../errors/handleCastError";
 import { handleDuplicateError } from "../errors/handleDuplicateError";
 import { handleValidationError } from "../errors/handleValidationError";
+import { handleZodError } from "../errors/handleZodError";
 import { TErrorSources } from "../interface/error";
 
 export const globalErrHandler: ErrorRequestHandler = (err, req, res, next) => {
@@ -30,6 +32,12 @@ export const globalErrHandler: ErrorRequestHandler = (err, req, res, next) => {
     errorSources = simplifiedError.errorSources;
   } else if (err.code === 11000) {
     const simplifiedError = handleDuplicateError(err);
+
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSources = simplifiedError.errorSources;
+  } else if (err instanceof ZodError) {
+    const simplifiedError = handleZodError(err);
 
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
