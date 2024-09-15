@@ -2,8 +2,23 @@ import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import { MovieServices } from "./movie.service";
 
+// const zodMovieSchema = z.object({
+//   body: z.object({
+//     title: z.string(),
+//     description: z.string(),
+//     releaseDate: z
+//       .string()
+//       .date("Please provide a valid date with the format: YYYY-MM-DD"),
+//     genre: z.string(),
+//     isDeleted: z.boolean().optional(),
+//   }),
+// });
+
 const creteMovie = catchAsync(async (req: Request, res: Response) => {
   const movieData = req.body;
+
+  // zodMovieSchema.parse({ body: movieData });
+
   const result = await MovieServices.creteMovieIntoDB(movieData);
 
   res.json({

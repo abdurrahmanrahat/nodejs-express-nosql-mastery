@@ -1,10 +1,16 @@
 import express from "express";
+import { validateRequest } from "../../middleware/validateRequest";
 import { ReviewControllers } from "../reviews/review.controller";
 import { MovieControllers } from "./movie.controller";
+import { MovieValidation } from "./movie.validation";
 
 const router = express.Router();
 
-router.post("/create-movie", MovieControllers.creteMovie);
+router.post(
+  "/create-movie",
+  validateRequest(MovieValidation.createMovieValidationSchema),
+  MovieControllers.creteMovie
+);
 
 router.get("/", MovieControllers.getAllMovies);
 
