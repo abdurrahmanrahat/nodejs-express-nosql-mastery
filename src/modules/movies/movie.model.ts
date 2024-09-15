@@ -7,6 +7,7 @@ const movieSchema = new Schema<TMovie, TMovieModel, TMovieMethods>({
   title: {
     type: String,
     required: [true, "Title is required"],
+    unique: true,
   },
   description: {
     type: String,
