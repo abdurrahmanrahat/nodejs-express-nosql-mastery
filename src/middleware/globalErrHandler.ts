@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
+import AppError from "../errors/AppError";
 import { handleCastError } from "../errors/handleCastError";
 import { handleDuplicateError } from "../errors/handleDuplicateError";
 import { handleValidationError } from "../errors/handleValidationError";
@@ -18,7 +19,13 @@ export const globalErrHandler: ErrorRequestHandler = (err, req, res, next) => {
     },
   ];
 
-  if (err.name === "ValidationError") {
+  if (err instanceof ZodError) {
+    const simplifiedError = handleZodError(err);
+
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSources = simplifiedError.errorSources;
+  } else if (err.name === "ValidationError") {
     const simplifiedError = handleValidationError(err);
 
     statusCode = simplifiedError.statusCode;
@@ -36,12 +43,15 @@ export const globalErrHandler: ErrorRequestHandler = (err, req, res, next) => {
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorSources = simplifiedError.errorSources;
-  } else if (err instanceof ZodError) {
-    const simplifiedError = handleZodError(err);
-
-    statusCode = simplifiedError.statusCode;
-    message = simplifiedError.message;
-    errorSources = simplifiedError.errorSources;
+  } else if (err instanceof AppError) {
+    statusCode = err.statusCode;
+    message = err.message;
+    errorSources = [
+      {
+        path: "",
+        message: err.message,
+      },
+    ];
   }
 
   return res.status(statusCode).json({
