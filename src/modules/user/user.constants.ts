@@ -1,10 +1,10 @@
 export const USER_Role = {
-  SUPER_ADMIN: "super_admin",
-  ADMIN: "admin",
-  USER: "user",
+  super_admin: "super_admin",
+  admin: "admin",
+  user: "user",
 } as const;
 
 export const USER_Status = {
-  ACTIVE: "active",
-  BLOCKED: "blocked",
+  active: "active",
+  blocked: "blocked",
 };
