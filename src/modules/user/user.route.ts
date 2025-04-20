@@ -11,4 +11,11 @@ router.post(
   UserControllers.createAdmin
 );
 
+//update
+router.patch(
+  "/:userId",
+  validateRequest(UserValidations.updateUserValidation),
+  UserControllers.updateUser
+);
+
 export const UserRoutes = router;
